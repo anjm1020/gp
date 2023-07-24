@@ -1,4 +1,4 @@
-package com.konkuk.core;
+package com.konkuk.core.socket;
 
 import com.konkuk.core.socket.SimpleMessageConvertor;
 import com.konkuk.core.socket.SocketMessageConvertor;
