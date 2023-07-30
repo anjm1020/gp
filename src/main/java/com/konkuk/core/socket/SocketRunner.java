@@ -1,5 +1,6 @@
 package com.konkuk.core.socket;
 
+import com.konkuk.core.logger.SystemLogger;
 import com.konkuk.data.response.ClientResponse;
 
 import java.io.*;
@@ -9,10 +10,12 @@ import java.net.Socket;
 public class SocketRunner implements Runnable {
     private final SocketMeta socketMeta;
     private final SocketMessageConvertor messageConvertor;
+    private final SystemLogger logger;
 
-    public SocketRunner(SocketMeta socketMeta, SocketMessageConvertor messageConvertor) {
+    public SocketRunner(SocketMeta socketMeta, SocketMessageConvertor messageConvertor, SystemLogger logger) {
         this.socketMeta = socketMeta;
         this.messageConvertor = messageConvertor;
+        this.logger = logger;
     }
 
     @Override
@@ -21,19 +24,19 @@ public class SocketRunner implements Runnable {
 
         try {
             ServerSocket socket = new ServerSocket(port);
-            System.out.println(socketMeta.socketName() + " : Listening on " + port);
+            logger.info(socketMeta.socketName() + " : Listening on " + port);
 
             while (true) {
 
                 Socket client = socket.accept();
-                System.out.println("client.getInetAddress() = " + client.getInetAddress());
-                System.out.println("client.getPort() = " + client.getPort());
+                logger.info("client.getInetAddress() = " + client.getInetAddress());
+                logger.info("client.getPort() = " + client.getPort());
 
                 BufferedReader in = new BufferedReader(new InputStreamReader(client.getInputStream()));
                 BufferedWriter out = new BufferedWriter(new OutputStreamWriter(client.getOutputStream()));
 
                 String received = in.readLine();
-                System.out.println("receivedByte = " + received);
+                logger.info("receivedByte = " + received);
 
                 ClientResponse response = ClientResponse.builder()
                         .script("mockup script")
@@ -45,9 +48,9 @@ public class SocketRunner implements Runnable {
 
                 byte[] responseBytes = messageConvertor.toByte(response);
                 String data = new String(responseBytes);
-                System.out.println("Ready for send : " + data);
+                logger.info("Ready for send : " + data);
                 out.write(data);
-                System.out.println("Send Finish");
+                logger.info("Send Finish");
                 out.flush();
                 client.close();
             }

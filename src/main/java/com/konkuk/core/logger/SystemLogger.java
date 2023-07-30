@@ -1,6 +1,6 @@
 package com.konkuk.core.logger;
 
 public interface SystemLogger {
-    void info();
-    void error();
+    void info(String msg);
+    void error(String msg);
 }

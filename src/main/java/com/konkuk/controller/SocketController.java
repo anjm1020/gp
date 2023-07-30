@@ -1,5 +1,6 @@
 package com.konkuk.controller;
 
+import com.konkuk.core.logger.DateFormatLogger;
 import com.konkuk.core.socket.SimpleMessageConvertor;
 import com.konkuk.core.socket.SocketMessageConvertor;
 import com.konkuk.core.socket.SocketMeta;
@@ -33,7 +34,7 @@ public class SocketController {
 
     public void run() {
         for (SocketMeta socketMeta : socketMetaList) {
-            new Thread(new SocketRunner(socketMeta, messageConvertor)).start();
+            new Thread(new SocketRunner(socketMeta, messageConvertor, new DateFormatLogger())).start();
         }
     }
 }
