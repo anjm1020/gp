@@ -7,6 +7,14 @@ public class ClientResponse {
     private boolean finish;
     private int dialog_id;
 
+    public static ClientResponse getTestResponse() {
+        return ClientResponse.builder()
+                .script("TEST SCRIPT")
+                .active(false)
+                .type("my")
+                .finish(true)
+                .dialog_id(1).build();
+    }
     public static Builder builder() {
         return new Builder();
     }
@@ -51,6 +59,17 @@ public class ClientResponse {
         this.dialog_id = dialog_id;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if(!(obj instanceof ClientResponse)) return false;
+        ClientResponse o1 = (ClientResponse) obj;
+        return this.script.equals(o1.script) &&
+                this.active == o1.active &&
+                this.type.equals(o1.type) &&
+                this.finish == o1.finish &&
+                this.dialog_id == o1.dialog_id;
+    }
+
     public static class Builder {
         private String script;
         private boolean active;
@@ -63,6 +82,7 @@ public class ClientResponse {
             res.setScript(script);
             res.setActive(active);
             res.setFinish(finish);
+            res.setType(type);
             res.setDialog_id(dialog_id);
             return res;
         }

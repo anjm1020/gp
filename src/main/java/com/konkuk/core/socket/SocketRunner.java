@@ -38,13 +38,7 @@ public class SocketRunner implements Runnable {
                 String received = in.readLine();
                 logger.info("receivedByte = " + received);
 
-                ClientResponse response = ClientResponse.builder()
-                        .script("mockup script")
-                        .active(true)
-                        .finish(false)
-                        .dialog_id(1)
-                        .type("daily")
-                        .build();
+                ClientResponse response = ClientResponse.getTestResponse();
 
                 byte[] responseBytes = messageConvertor.toByte(response);
                 String data = new String(responseBytes);

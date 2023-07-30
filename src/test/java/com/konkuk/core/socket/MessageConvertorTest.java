@@ -1,8 +1,7 @@
 package com.konkuk.core.socket;
 
-import com.konkuk.core.socket.SimpleMessageConvertor;
-import com.konkuk.core.socket.SocketMessageConvertor;
 import com.konkuk.data.response.ClientResponse;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -15,11 +14,12 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @DisplayName("MessageConvertor Test")
 public class MessageConvertorTest {
 
-    SocketMessageConvertor messageConvertor;
-    Object object;
-    String json;
+    static SocketMessageConvertor messageConvertor;
+    static Object object;
+    static String json;
 
-    public MessageConvertorTest() {
+    @BeforeAll
+    static void beforeAll () {
         messageConvertor = new SimpleMessageConvertor();
         ClientResponse obj = new ClientResponse();
         obj.setType("type");
@@ -36,7 +36,6 @@ public class MessageConvertorTest {
                 "\"active\":false," +
                 "\"dialog_id\":1," +
                 "}";
-
     }
 
     @Test
@@ -54,7 +53,6 @@ public class MessageConvertorTest {
         String resJson = new String(bytes);
         assertTrue(() -> isEqual(resJson, object));
     }
-
 
     boolean isEqual(Object obj1, Object obj2, Class<?> clazz) {
         Method[] methods = clazz.getDeclaredMethods();
